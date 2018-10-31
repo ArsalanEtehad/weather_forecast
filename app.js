@@ -23,17 +23,17 @@ const argv = yargs.command('address', 'Getting the address ',{
   .argv;
 
 
-geocode.geocodeAddress(argv.address, (errorMessage, results)=>{
+geocode.geocodeAddress(argv.address, (errorMessage, geoResults)=>{
 //this arrow function  will be called after the geoiocodeAddress(argv.address) request got back
 if(errorMessage){
   console.log(errorMessage);
 }else{
-    console.log(JSON.stringify(results,undefined,2));
-    forecast.forecast(results.Latitude, results.Longitude, (errorMessage, results)=>{
+    console.log(JSON.stringify(geoResults,undefined,2));
+    forecast.forecast(geoResults.Latitude, geoResults.Longitude, (errorMessage, weatherResults)=>{
       if(errorMessage){
         console.log(errorMessage);
       }else{
-        console.log(JSON.stringify(results,undefined,2));
+        console.log(JSON.stringify(weatherResults,undefined,2));
       }
     });
 
