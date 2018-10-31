@@ -1,8 +1,9 @@
 const yargs = require('yargs');
-const geocode = require('./geocode/geocode.js');
+const axios = require('axios');
+const geocode = require('./geocode/promise_geocode.js');
 const forecast = require('./weather/forecast.js');
 const config = require('./config');
-const request = require('request');
+
 
 const argv = yargs
   .option({
@@ -16,21 +17,21 @@ const argv = yargs
   .alias('help','h')
   .argv;
 
-//GEOCODE USING CALLBACK
-geocode.geocodeAddress(argv.address, (errorMessage, geoResults)=>{
-//this arrow function  will be called after the geoiocodeAddress(argv.address) request got back
-if(errorMessage){
-  console.log(errorMessage);
-}else{
-  console.log(geoResults.address);
-    forecast.getForecast(geoResults.Latitude, geoResults.Longitude, (weatherErrorMessage, weatherResults)=>{
-      //Again another call back in the function: this arrow function  will be called after the geoiocodeAddress(argv.address) request got back
-      if(weatherErrorMessage){
-        console.log(weatherErrorMessage);
-      }else{
-        console.log(`It's currently ${weatherResults.celcius.toFixed(2)}˚C but it feels like ${weatherResults.apparent_celcius.toFixed(2)}˚C`);
-      }
-    });
 
+  var encoded_uri_addr = encodeURIComponent(argv.address)
+  var geo_api_key = config.keys.GEO_API_KEY;
+  var addr_url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encoded_uri_addr}&key=${geo_api_key}`;
+
+  axios.get(addr_url).then((response)=>{
+    if(response.data.status === 'ZERO_RESULTS'){
+      throw new Error('Unable to find the address.');
+    }
+    console.log(response.data); //Beauty of throw the Error: no need to put a else here. It will stop at the Error 
+
+  }).catch((e)=>{
+    if(e.code === 'ENOTFOUND'){//I found it by printing out the e first when error occured.
+      console.log('ENOTFOUND...');
+    }else{
+    console.log(e.message);
   }
-});
+  });
