@@ -35,16 +35,10 @@ const argv = yargs
     forecast_url += config.keys.DARK_SKY_API;
     forecast_url += `/${lat},${lng}`;
 
-    axios.get(forecast_url).then((weatherResponse)=>{
-      console.log(weatherResponse.data.currently.summary);
-
-    }).catch((e)=>{
-      if(e.code === 'ENOTFOUND'){//I found it by printing out the e first when error occured.
-        console.log('ENOTFOUND...');
-      }else{
-      console.log(e.message);
-    }
-    });
+    //***GETting the forecast....
+    return axios.get(forecast_url);
+  }).then((weatherResponse)=>{
+    console.log(weatherResponse.data.currently.summary);
   }).catch((e)=>{
     if(e.code === 'ENOTFOUND'){//I found it by printing out the e first when error occured.
       console.log('ENOTFOUND...');
