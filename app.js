@@ -4,13 +4,7 @@ const forecast = require('./weather/forecast.js');
 const config = require('./config');
 const request = require('request');
 
-const argv = yargs.command('address', 'Getting the address ',{
-    // address: {
-    //     describe: "Street Address",
-    //     demand: true,
-    //     alias: 'a'
-    //     }
-  })
+const argv = yargs
   .option({
     address: {
         describe: "Address to fetch weather for",
@@ -22,7 +16,7 @@ const argv = yargs.command('address', 'Getting the address ',{
   .alias('help','h')
   .argv;
 
-
+//GEOCODE USING CALLBACK
 geocode.geocodeAddress(argv.address, (errorMessage, geoResults)=>{
 //this arrow function  will be called after the geoiocodeAddress(argv.address) request got back
 if(errorMessage){
