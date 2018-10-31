@@ -28,12 +28,13 @@ geocode.geocodeAddress(argv.address, (errorMessage, geoResults)=>{
 if(errorMessage){
   console.log(errorMessage);
 }else{
-    console.log(JSON.stringify(geoResults,undefined,2));
-    forecast.forecast(geoResults.Latitude, geoResults.Longitude, (errorMessage, weatherResults)=>{
-      if(errorMessage){
-        console.log(errorMessage);
+  console.log(geoResults.address);
+    forecast.getForecast(geoResults.Latitude, geoResults.Longitude, (weatherErrorMessage, weatherResults)=>{
+      //Again another call back in the function: this arrow function  will be called after the geoiocodeAddress(argv.address) request got back
+      if(weatherErrorMessage){
+        console.log(weatherErrorMessage);
       }else{
-        console.log(JSON.stringify(weatherResults,undefined,2));
+        console.log(`It's currently ${weatherResults.celcius.toFixed(2)}˚C but it feels like ${weatherResults.apparent_celcius.toFixed(2)}˚C`);
       }
     });
 
