@@ -26,8 +26,8 @@ var geocodeAddress = (input_addr)=>{
 };
 
 
-geocodeAddress("neu Camp Stadium").then((location)=>{
-  console.log(location.address);
+geocodeAddress("turin").then((location)=>{
+  console.log(JSON.stringify(location,undefined,2));
 },(errorMessage)=>{
   console.log(errorMessage);
 })
