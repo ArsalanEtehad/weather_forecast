@@ -1,5 +1,6 @@
 const yargs = require('yargs');
 const geocode = require('./geocode/geocode.js');
+const forecast = require('./weather/forecast.js');
 const config = require('./config');
 const request = require('request');
 
@@ -27,22 +28,9 @@ geocode.geocodeAddress(argv.address, (errorMessage, results)=>{
 if(errorMessage){
   console.log(errorMessage);
 }else{
-    // console.log(results.address);
-    // console.log(`Latitude: ${results.Latitude}`);
-    // console.log(`Longitude: ${results.Longitude}`);
     console.log(JSON.stringify(results,undefined,2));
-    // console.log(results.body);
-
-    forecast_url = `https://api.darksky.net/forecast/`;
-    forecast_url += config.keys.DARK_SKY_API;
-    forecast_url += `/${results.Latitude},${results.Longitude}`;
-    request({
-      url: forecast_url,
-      json: true
-    }, function (error, response, body) {
-      console.log(body.currently.summary);
-
-    });
+    
+    forecast.forecast(results.Latitude, results.Longitude)
 
   }
 });
