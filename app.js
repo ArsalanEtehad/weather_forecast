@@ -19,4 +19,13 @@ const argv = yargs.command('address', 'Getting the address ',{
   .alias('help','h')
   .argv;
 
-geocode.geocodeAddress(argv.address);
+geocode.geocodeAddress(argv.address, (errorMessage, results)=>{
+//this arrow function  will be called after the geoiocodeAddress(argv.address) request got back
+if(errorMessage){
+  console.log(errorMessage);
+}else{
+    console.log(results.address);
+    console.log(`Latitude: ${results.Latitude}`);
+    console.log(`Longitude: ${results.Longitude}`);
+  }
+});
