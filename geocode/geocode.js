@@ -17,9 +17,6 @@ var geocodeAddress = (input_addr, callback) =>{
     }else if(body.status === "ZERO_RESULTS"){
       callback(`This is not a valid address`); //API response is: {results: [ ],status: "ZERO_RESULTS"}
     }else if(body.status === "OK"){//{ results: [.....],status: "OK"}
-      // console.log('error:', error); // Print the error if one occurred
-      // console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-      // console.log(JSON.stringify(body,undefined,2)); //it can be just 1 arg: body. but 2 is spaces to look clearer
       callback(undefined,{ //undefined for the errorMessage
         address: body.results[0].formatted_address,
         Latitude: body.results[0].geometry.location.lat,
